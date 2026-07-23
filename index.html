@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Custom Product Mixing Calculator</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    min-height: 100vh;
+    padding: 30px 15px;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+/* Section */
+
+.section {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #334155;
+    margin-bottom: 15px;
+}
+
+/* Input */
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+    color: #334155;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #2563eb;
+}
+
+/* Button */
+
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+/* Results */
+
+.result-box {
+    margin-top: 25px;
+    background: #eff6ff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.result {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #dbeafe;
+}
+
+.result:last-child {
+    border-bottom: none;
+}
+
+.product-name {
+    font-weight: bold;
+}
+
+.quantity {
+    font-weight: bold;
+    color: #1e40af;
+}
+
+.total {
+    font-size: 20px;
+    color: #166534;
+}
+
+/* Formula */
+
+.formula {
+    margin-top: 20px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>Product Mixing Calculator</h1>
+
+<p class="subtitle">
+Customize your recipe and calculate the required quantities automatically.
+</p>
+
+
+<!-- CUSTOM RECIPE -->
+
+<div class="section">
+
+<h2>1. Set Your Original Recipe</h2>
+
+<div class="input-group">
+
+<label>Product A Name</label>
+
+<input 
+type="text"
+id="nameA"
+value="Product A"
+>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Product A Quantity (kg)</label>
+
+<input 
+type="number"
+id="recipeA"
+value="1.5"
+min="0"
+step="0.001"
+>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Product B Name</label>
+
+<input 
+type="text"
+id="nameB"
+value="Product B"
+>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Product B Quantity (kg)</label>
+
+<input 
+type="number"
+id="recipeB"
+value="0.5"
+min="0"
+step="0.001"
+>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Product C Name</label>
+
+<input 
+type="text"
+id="nameC"
+value="Product C"
+>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Product C Quantity (kg)</label>
+
+<input 
+type="number"
+id="recipeC"
+value="3"
+min="0"
+step="0.001"
+>
+
+</div>
+
+</div>
+
+
+<!-- CALCULATION -->
+
+<div class="section">
+
+<h2>2. Select Base Product</h2>
+
+<div class="input-group">
+
+<label>Calculate Based On</label>
+
+<select id="baseProduct">
+
+<option value="A">
+Product A
+</option>
+
+<option value="B">
+Product B
+</option>
+
+<option value="C" selected>
+Product C
+</option>
+
+</select>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Enter Base Quantity (kg)</label>
+
+<input 
+type="number"
+id="baseQuantity"
+placeholder="Enter quantity"
+min="0"
+step="0.001"
+>
+
+</div>
+
+
+<button onclick="calculateMix()">
+Calculate Mix
+</button>
+
+</div>
+
+
+<!-- RESULTS -->
+
+<div class="result-box">
+
+<div class="result">
+
+<span class="product-name" id="resultNameA">
+Product A
+</span>
+
+<span class="quantity">
+<span id="resultA">0.000</span> kg
+</span>
+
+</div>
+
+
+<div class="result">
+
+<span class="product-name" id="resultNameB">
+Product B
+</span>
+
+<span class="quantity">
+<span id="resultB">0.000</span> kg
+</span>
+
+</div>
+
+
+<div class="result">
+
+<span class="product-name" id="resultNameC">
+Product C
+</span>
+
+<span class="quantity">
+<span id="resultC">0.000</span> kg
+</span>
+
+</div>
+
+
+<div class="result total">
+
+<span>Total Mix</span>
+
+<span>
+<span id="totalMix">0.000</span> kg
+</span>
+
+</div>
+
+</div>
+
+
+<!-- FORMULA -->
+
+<div class="formula">
+
+<strong>Calculation Method</strong>
+
+<br>
+
+The calculator uses your customized original recipe as the ratio.
+
+<br><br>
+
+For example, if your recipe is:
+
+<br>
+
+A = 1.5 kg<br>
+B = 0.5 kg<br>
+C = 3 kg
+
+<br><br>
+
+If C is selected as the base:
+
+<br>
+
+A = C × (A Recipe ÷ C Recipe)
+
+<br>
+
+B = C × (B Recipe ÷ C Recipe)
+
+</div>
+
+
+</div>
+
+
+<script>
+
+function calculateMix() {
+
+    // Get recipe values
+
+    let recipeA = parseFloat(
+        document.getElementById("recipeA").value
+    );
+
+    let recipeB = parseFloat(
+        document.getElementById("recipeB").value
+    );
+
+    let recipeC = parseFloat(
+        document.getElementById("recipeC").value
+    );
+
+
+    // Get product names
+
+    let nameA =
+        document.getElementById("nameA").value || "Product A";
+
+    let nameB =
+        document.getElementById("nameB").value || "Product B";
+
+    let nameC =
+        document.getElementById("nameC").value || "Product C";
+
+
+    // Get selected base
+
+    let baseProduct =
+        document.getElementById("baseProduct").value;
+
+
+    // Get base quantity
+
+    let baseQuantity =
+        parseFloat(
+            document.getElementById("baseQuantity").value
+        );
+
+
+    // Validation
+
+    if (
+        isNaN(recipeA) ||
+        isNaN(recipeB) ||
+        isNaN(recipeC) ||
+        isNaN(baseQuantity)
+    ) {
+
+        alert("Please enter all quantities.");
+
+        return;
+    }
+
+
+    if (
+        recipeA <= 0 ||
+        recipeB <= 0 ||
+        recipeC <= 0 ||
+        baseQuantity <= 0
+    ) {
+
+        alert("All quantities must be greater than zero.");
+
+        return;
+    }
+
+
+    // Variables
+
+    let A;
+    let B;
+    let C;
+
+
+    // Calculate based on Product A
+
+    if (baseProduct === "A") {
+
+        A = baseQuantity;
+
+        B = baseQuantity *
+            (recipeB / recipeA);
+
+        C = baseQuantity *
+            (recipeC / recipeA);
+
+    }
+
+
+    // Calculate based on Product B
+
+    else if (baseProduct === "B") {
+
+        A = baseQuantity *
+            (recipeA / recipeB);
+
+        B = baseQuantity;
+
+        C = baseQuantity *
+            (recipeC / recipeB);
+
+    }
+
+
+    // Calculate based on Product C
+
+    else {
+
+        A = baseQuantity *
+            (recipeA / recipeC);
+
+        B = baseQuantity *
+            (recipeB / recipeC);
+
+        C = baseQuantity;
+
+    }
+
+
+    // Total mixture
+
+    let totalMix =
+        A + B + C;
+
+
+    // Update product names
+
+    document.getElementById("resultNameA")
+        .textContent = nameA;
+
+    document.getElementById("resultNameB")
+        .textContent = nameB;
+
+    document.getElementById("resultNameC")
+        .textContent = nameC;
+
+
+    // Display results
+
+    document.getElementById("resultA")
+        .textContent = A.toFixed(3);
+
+    document.getElementById("resultB")
+        .textContent = B.toFixed(3);
+
+    document.getElementById("resultC")
+        .textContent = C.toFixed(3);
+
+    document.getElementById("totalMix")
+        .textContent = totalMix.toFixed(3);
+
+}
+
+</script>
+
+</body>
+</html>
